@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: nirvana-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nirvana
+      POSTGRES_USER: nirvana
+      POSTGRES_PASSWORD: nirvana_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - nirvana_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nirvana -d nirvana"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  nirvana_pgdata:
